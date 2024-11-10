@@ -1,4 +1,9 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
+import java.io.InputStream;
+import java.io.FileInputStream;
+
 
 public class CHIP8 {
   private short[] registers;
@@ -17,12 +22,16 @@ public class CHIP8 {
 
   private short[] memory;
 
+  private boolean romLoaded;
+
   public CHIP8() {
     registers = new short[16];
     cpuStack = new int[16];
     keypad = new boolean[16];
     screen = new long[64 * 32];
     memory = new short[4096];
+    programCounter = 0x200;
+    romLoaded = false;
   }
 
   private void OP_00E0() { //CLS: clear video memory
@@ -313,6 +322,25 @@ public class CHIP8 {
     for(int i = 0; i <= vx; i++) {
       registers[i] = memory[indexRegister + i];
     }
+  }
+
+  private void executeOpcode() { // Decodes the opcode and executes the specific instruction
+
+  }
+
+  public void loadROM(String fileName) throws IOException {
+      if(!romLoaded) {
+        InputStream inputStream = new FileInputStream(fileName);
+        int data;
+        int offset = 0;
+        while((data = inputStream.read()) != -1) {
+          memory[0x200 + offset] = (short) (data & 0xFF);
+          offset++;
+        }
+        romLoaded = true;
+      } else {
+        System.out.println("ROM has already been loaded!");
+      }
   }
 
 
