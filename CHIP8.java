@@ -219,6 +219,16 @@ public class CHIP8 {
     }
   }
 
+  private void OP_Fx07() {
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    registers[vx] = (short) (delayTimer & 0xFF);
+  }
+
+  private void OP_Fx0A() {
+//    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+
+  }
+
 
 
 
