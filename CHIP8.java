@@ -200,6 +200,30 @@ public class CHIP8 {
   }
 
   private void OP_Dxyn() { //TODO
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short height = (short) (opcode & 0xF);
+
+    short xPos = (short) (registers[vx] % 64);
+    short yPos = (short) (registers[vy] % 32);
+
+    registers[15] = 0;
+
+    for(int row = 0; row < height; row++) {
+      short spriteByte = (short) (memory[indexRegister + row] & 0xFF);
+      for(int col = 0; col < 8; col++) {
+        short spritePixel = (short) (spriteByte & (0x80 >> col) & 0xFF);
+        long screenPixel = screen[(yPos + row) * 64 + (xPos + col )];
+
+        if(spritePixel > 0) {
+          if(screenPixel == 0xFFFFFFFFL) {
+            registers[15] = 1;
+          }
+
+          screen[(yPos + row) * 64 + (xPos + col )] ^= 0xFFFFFFFFL;
+        }
+      }
+    }
 
   }
 
