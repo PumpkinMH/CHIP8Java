@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Random;
 
 public class Test {
   public static void main(String[] args) {
@@ -29,6 +30,13 @@ public class Test {
     } catch (IOException e) {
         e.printStackTrace();
         return;
+    }
+
+    System.out.println();
+
+    Random randomByteGenerator = new Random();
+    for(int i = 0; i < 100; i++) {
+      System.out.println(randomByteGenerator.nextInt(256));
     }
   }
 }
