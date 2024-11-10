@@ -219,15 +219,79 @@ public class CHIP8 {
     }
   }
 
-  private void OP_Fx07() {
+  private void OP_Fx07() { // Set Vx to the value of the Delay Timer
     short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
     registers[vx] = (short) (delayTimer & 0xFF);
   }
 
-  private void OP_Fx0A() {
-//    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+  private void OP_Fx0A() { // wait until a keypress, and then store the key in Vx
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    boolean success = false;
 
+    for(int i = 0; i < keypad.length && !success; i++) {
+      if(keypad[i]) {
+        success = true;
+        registers[vx] = (short) i;
+      }
+    }
+
+    if(!success) {
+      programCounter -= 2;
+    }
   }
+
+  private void OP_Fx15() { // set the delay timer to the value stored in Vx
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    delayTimer = registers[vx];
+  }
+
+  private void OP_Fx18() { // set the sound timer to the value stored in Vx
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    soundTimer = registers[vx];
+  }
+
+  private void OP_Fx1E() { // Set the index register to the current value plus the value stored in Vx
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    indexRegister = (indexRegister + registers[vx]) & 0xFFFF;
+  }
+
+  private void OP_Fx29() { // Set index register to the location of sprite for digit Vx
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short digit = registers[vx];
+
+    indexRegister = 0x50 + (5 * digit); // 0x50 is the start of the characters, and each character is 5 bytes
+  }
+
+  private void OP_Fx33() { // Store the BCD representation of the value in Vx in index register, with I representing the 100s, I+1 representing the 10s, and I+2 representing the 1s
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short value = (short) (registers[vx] & 0xFF);
+
+    memory[indexRegister + 2] = (short) (value % 10);
+    value /= 10;
+
+    memory[indexRegister + 1] = (short) (value % 10);
+    value /= 10;
+
+    memory[indexRegister] = (short) (value % 10);
+  }
+
+  private void OP_Fx55() { // store the values of V0 through VX starting at I
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+
+    for(int i = 0; i <= vx; i++) {
+      memory[indexRegister + i] = registers[i];
+    }
+  }
+
+  private void OP_Fx65() { // read the values of I through I + x into V0 through VX
+    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+
+    for(int i = 0; i <= vx; i++) {
+      registers[i] = memory[indexRegister + i];
+    }
+  }
+
+
 
 
 
