@@ -52,6 +52,10 @@ public class CHIP8 {
     memory = new short[4096];
     programCounter = 0x200;
     romLoaded = false;
+
+    for(int i = 0; i < fontSet.length; i++) {
+      memory[0x50 + i] = fontSet[i];
+    }
   }
 
   private void OP_00E0() { //CLS: clear video memory
