@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 import java.io.InputStream;
@@ -358,6 +357,8 @@ public class CHIP8 {
         case 0xE:
           OP_00EE();
           break;
+        default:
+          throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
     } else if((opcode & 0xF000 >> 12) == 8) { // opcode starts with 0x8
       int lastDigit = opcode & 0xF;
@@ -390,9 +391,95 @@ public class CHIP8 {
           OP_8xyE();
           break;
         default:
-          throw new UnknownOpcode(Integer.toHexString(opcode));
+          throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
-
+    } else if ((opcode & 0xF000 >> 12) == 0xE) { // Opcode begins with E
+      int lastDigits = opcode & 0xFF;
+      switch(lastDigits) {
+        case 0xA1:
+          OP_ExA1();
+          break;
+        case 0x9E:
+          OP_Ex9E();
+          break;
+        default:
+          throw new UnknownOpcodeException(Integer.toHexString(opcode));
+      }
+    } else if (((opcode & 0xF000 >> 12) == 0xF)) { // Opcode begins with F
+      int lastDigits = opcode & 0xFF;
+      switch(lastDigits) {
+        case 0x07:
+          OP_Fx07();
+          break;
+        case 0x0A:
+          OP_Fx0A();
+          break;
+        case 0x15:
+          OP_Fx15();
+          break;
+        case 0x18:
+          OP_Fx18();
+          break;
+        case 0x1E:
+          OP_Fx1E();
+          break;
+        case 0x29:
+          OP_Fx29();
+          break;
+        case 0x33:
+          OP_Fx33();
+          break;
+        case 0x55:
+          OP_Fx55();
+          break;
+        case 0x65:
+          OP_Fx65();
+          break;
+        default:
+          throw new UnknownOpcodeException(Integer.toHexString(opcode));
+      }
+    } else { // First digit / entire opcode is unique
+      int firstDigit = opcode & 0xF000 >> 12;
+      switch(firstDigit) {
+        case 0x1:
+          OP_1nnn();
+          break;
+        case 0x2:
+          OP_2nnn();
+          break;
+        case 0x3:
+          OP_3xkk();
+          break;
+        case 0x4:
+          OP_4xkk();
+          break;
+        case 0x5:
+          OP_5xy0();
+          break;
+        case 0x6:
+          OP_6xkk();
+          break;
+        case 0x7:
+          OP_7xkk();
+          break;
+        case 0x9:
+          OP_9xy0();
+          break;
+        case 0xA:
+          OP_Annn();
+          break;
+        case 0xB:
+          OP_Bnnn();
+          break;
+        case 0xC:
+          OP_Cxkk();
+          break;
+        case 0xD:
+          OP_Dxyn();
+          break;
+        default:
+          throw new UnknownOpcodeException(Integer.toHexString(opcode));
+      }
     }
   }
 
