@@ -232,7 +232,7 @@ public class CHIP8 {
     registers[vx] = (short) (randomByte & kk & 0xFF);
   }
 
-  private void OP_Dxyn() { //TODO
+  private void OP_Dxyn() {
     short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
     short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
     short height = (short) (opcode & 0xF);
@@ -349,7 +349,51 @@ public class CHIP8 {
   }
 
   private void executeOpcode() { // Decodes the opcode and executes the specific instruction
+    if((opcode & 0xFFF0 >> 4) == 0x00E) { // first three digits are 0x00E
+      int lastDigit = opcode & 0xF;
+      switch(lastDigit) {
+        case 0x0:
+          OP_00E0();
+          break;
+        case 0xE:
+          OP_00EE();
+          break;
+      }
+    } else if((opcode & 0xF000 >> 12) == 8) { // opcode starts with 0x8
+      int lastDigit = opcode & 0xF;
+      switch(lastDigit) {
+        case 0x0:
+          OP_8xy0();
+          break;
+        case 0x1:
+          OP_8xy1();
+          break;
+        case 0x2:
+          OP_8xy2();
+          break;
+        case 0x3:
+          OP_8xy3();
+          break;
+        case 0x4:
+          OP_8xy4();
+          break;
+        case 0x5:
+          OP_8xy5();
+          break;
+        case 0x6:
+          OP_8xy6();
+          break;
+        case 0x7:
+          OP_8xy7();
+          break;
+        case 0xE:
+          OP_8xyE();
+          break;
+        default:
+          throw new UnknownOpcode(Integer.toHexString(opcode));
+      }
 
+    }
   }
 
   public void loadROM(String fileName) throws IOException {
