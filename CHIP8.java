@@ -483,6 +483,10 @@ public class CHIP8 {
     }
   }
 
+  private void cycle() {
+
+  }
+
   public void loadROM(String fileName) throws IOException {
       if(!romLoaded) {
         InputStream inputStream = new FileInputStream(fileName);
