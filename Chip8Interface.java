@@ -58,6 +58,8 @@ public class Chip8Interface extends JPanel {
   public static void main(String[] args) {
     JFrame frame = new JFrame("Pixel Drawing");
     Chip8Interface panel = new Chip8Interface();
+    KeyboardListener keyboardListener = new KeyboardListener();
+    frame.addKeyListener(keyboardListener);
     frame.add(panel);
     frame.setSize(720, 480);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
