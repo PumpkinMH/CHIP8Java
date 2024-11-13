@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
 
-public class Chip8Interface extends JPanel {
+public class Chip8Output extends JPanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -56,17 +56,29 @@ public class Chip8Interface extends JPanel {
   }
 
   public static void main(String[] args) {
-    JFrame frame = new JFrame("Pixel Drawing");
-    Chip8Interface panel = new Chip8Interface();
-    KeyboardListener keyboardListener = new KeyboardListener();
+//    JFrame frame = new JFrame("Chip8 Interpreter");
+//    Chip8Output panel = new Chip8Output();
+//    Chip8Input keyboardListener = new Chip8Input();
+//    frame.addKeyListener(keyboardListener);
+//    frame.add(panel);
+//    frame.setSize(720, 480);
+//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    frame.setVisible(true);
+//
+//    new Scanner(System.in).next();
+//    panel.repaint();
+
+      Chip8Output ch8 = new Chip8Output(new boolean[16]);
+  }
+
+  public Chip8Output(boolean[] keypad) {
+    JFrame frame = new JFrame("Chip8 Interpreter");
+    Chip8Input keyboardListener = new Chip8Input(keypad);
     frame.addKeyListener(keyboardListener);
-    frame.add(panel);
+    frame.add(this);
     frame.setSize(720, 480);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
-
-    new Scanner(System.in).next();
-    panel.repaint();
   }
 
   public void updateScreen() {

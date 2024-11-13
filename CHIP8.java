@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.io.InputStream;
@@ -512,6 +513,10 @@ public class CHIP8 {
       } else {
         System.out.println("ROM has already been loaded!");
       }
+  }
+
+  public void updateKeypad(KeyEvent e) {
+
   }
 
 
