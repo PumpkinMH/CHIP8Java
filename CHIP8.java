@@ -3,7 +3,7 @@ import java.util.Random;
 import java.io.InputStream;
 import java.io.FileInputStream;
 
-
+// TODO Finish opcode decoding, the main cycle, and the graphics
 public class CHIP8 {
   private short[] registers;
   private int indexRegister;
@@ -484,7 +484,19 @@ public class CHIP8 {
   }
 
   private void cycle() {
+    opcode = ((memory[programCounter] << 8) | memory[programCounter+1]) & 0xFFFF;
 
+    programCounter += 2;
+
+    executeOpcode();
+
+    if(delayTimer > 0) {
+      delayTimer--;
+    }
+
+    if(soundTimer > 0) {
+      soundTimer--;
+    }
   }
 
   public void loadROM(String fileName) throws IOException {
