@@ -59,8 +59,8 @@ public class CHIP8 {
   }
 
   private void OP_00E0() { //CLS: clear video memory
-    for(int i = 0; i < memory.length; i++) {
-      memory[i] = 0;
+    for(int i = 0; i < screen.length; i++) {
+      screen[i] = 0;
     }
   }
 
