@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 
 // TODO Finish opcode decoding, the main cycle, and the graphics
-public class CHIP8 {
+public class CHIP8Core {
   private short[] registers;
   private int indexRegister;
   private int programCounter;
@@ -43,7 +43,7 @@ public class CHIP8 {
                   0xF0, 0x80, 0xF0, 0x80, 0x80  // F
           };
 
-  public CHIP8() {
+  public CHIP8Core() {
     registers = new short[16];
     cpuStack = new int[16];
     keypad = new boolean[16];

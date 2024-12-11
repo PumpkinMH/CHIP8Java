@@ -3,6 +3,8 @@ import java.awt.*;
 import java.util.Scanner;
 
 public class Chip8Interface extends JPanel {
+  private long[] frameBuffer;
+
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -69,6 +71,11 @@ public class Chip8Interface extends JPanel {
     panel.repaint();
   }
 
-  public void updateScreen() {
+  public void updateScreen(long[] frameBuffer) {
+    this.frameBuffer = frameBuffer.clone();
   }
+
+
+
+
 }

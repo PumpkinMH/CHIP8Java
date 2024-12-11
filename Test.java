@@ -24,7 +24,7 @@ public class Test {
 //        e.printStackTrace();
 //    }
 
-    CHIP8 computer = new CHIP8();
+    CHIP8Core computer = new CHIP8Core();
     try {
         computer.loadROM("tetris.ch8");
     } catch (IOException e) {
