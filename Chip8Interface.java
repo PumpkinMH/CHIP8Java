@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.Scanner;
 
 public class Chip8Interface extends JPanel {
+  private KeyboardListener keyboardListener;
   private long[] frameBuffer;
 
   @Override
@@ -60,8 +61,8 @@ public class Chip8Interface extends JPanel {
   public static void main(String[] args) {
     JFrame frame = new JFrame("Pixel Drawing");
     Chip8Interface panel = new Chip8Interface();
-    KeyboardListener keyboardListener = new KeyboardListener();
-    frame.addKeyListener(keyboardListener);
+    panel.keyboardListener = new KeyboardListener();
+    frame.addKeyListener(panel.keyboardListener);
     frame.add(panel);
     frame.setSize(720, 480);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,6 +74,10 @@ public class Chip8Interface extends JPanel {
 
   public void updateScreen(long[] frameBuffer) {
     this.frameBuffer = frameBuffer.clone();
+  }
+
+  public boolean[] getStaticKeys() {
+    return keyboardListener.getStaticKeys();
   }
 
 
