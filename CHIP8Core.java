@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.io.InputStream;
@@ -58,8 +59,8 @@ public class CHIP8Core {
   }
 
   private void OP_00E0() { //CLS: clear video memory
-    for(int i = 0; i < memory.length; i++) {
-      memory[i] = 0;
+    for(int i = 0; i < screen.length; i++) {
+      screen[i] = 0;
     }
   }
 
@@ -512,6 +513,10 @@ public class CHIP8Core {
       } else {
         System.out.println("ROM has already been loaded!");
       }
+  }
+
+  public void updateKeypad(KeyEvent e) {
+
   }
 
 
