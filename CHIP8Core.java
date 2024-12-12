@@ -119,7 +119,8 @@ public class CHIP8Core {
     short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
-    registers[vx] += kk;
+//    registers[vx] += kk;
+    registers[vx] = (short) ((registers[vx] + kk) & 0xFF);
   }
 
   private void OP_8xy0() { // LD Vx, Vy: loads the value of vy into vx
@@ -173,7 +174,7 @@ public class CHIP8Core {
       registers[15] = 0;
     }
 
-    registers[vx] = (short) (registers[vx] - registers[vy] & 0xFF);
+    registers[vx] = (short) ((registers[vx] - registers[vy]) & 0xFF);
   }
 
   private void OP_8xy6() { // SHR Vx : Shift Vx right, and store the result in Vx and the lsb in vf
@@ -193,14 +194,14 @@ public class CHIP8Core {
       registers[15] = 0;
     }
 
-    registers[vx] = (short) (registers[vy] - registers[vx] & 0xFF);
+    registers[vx] = (short) ((registers[vy] - registers[vx]) & 0xFF);
   }
 
   private void OP_8xyE() { // SHL Vx: Shift Vx left, and store the result in Vx and the msb in vf
     short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
     registers[15] = (short) ((registers[vx] & 0x80) >> 7);
-    registers[vx] = (short) (registers[vx] << 1 & 0xFF);
+    registers[vx] = (short) ((registers[vx] << 1) & 0xFF);
   }
 
   private void OP_9xy0() { // SNE Vx, Vy: Skip the next instruction if Vx and Vy are not equal
@@ -229,7 +230,7 @@ public class CHIP8Core {
     Random randomByteGenerator = new Random();
     int randomByte = randomByteGenerator.nextInt(256);
 
-    registers[vx] = (short) (randomByte & kk & 0xFF);
+    registers[vx] = (short) ((randomByte & kk) & 0xFF);
   }
 
   private void OP_Dxyn() {
@@ -288,7 +289,7 @@ public class CHIP8Core {
     for(int i = 0; i < keypad.length && !success; i++) {
       if(keypad[i]) {
         success = true;
-        registers[vx] = (short) i;
+        registers[vx] = (short) (i & 0xFF);
       }
     }
 
@@ -344,7 +345,7 @@ public class CHIP8Core {
     short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
     for(int i = 0; i <= vx; i++) {
-      registers[i] = memory[indexRegister + i];
+      registers[i] = (short) (memory[indexRegister + i] & 0xFF);
     }
   }
 

@@ -14,7 +14,7 @@ public class KeyboardListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyChar());
+//        System.out.println(e.getKeyChar());
         Character keypadChar;
         if((keypadChar = keypadMapping.get(e.getKeyChar())) != null) {
             updateKeys(true, keypadChar);
@@ -23,7 +23,7 @@ public class KeyboardListener implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println(e.getKeyChar());
+//        System.out.println(e.getKeyChar());
         Character keypadChar;
         if((keypadChar = keypadMapping.get(e.getKeyChar())) != null) {
             updateKeys(false, keypadChar);

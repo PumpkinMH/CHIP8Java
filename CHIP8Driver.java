@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class CHIP8Driver {
-    static int cycleTimeMillis = 5;
+    static int cycleTimeMillis = 10;
 
     public static void main(String[] args) {
         Chip8Interface ch8interface = new Chip8Interface();
@@ -18,7 +18,7 @@ public class CHIP8Driver {
 
         CHIP8Core ch8core = new CHIP8Core();
         try {
-            ch8core.loadROM("test_opcode.ch8");
+            ch8core.loadROM("tetris.ch8");
         } catch (IOException e) {
             System.out.println("File not found");
             return;

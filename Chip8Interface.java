@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Chip8Interface extends JPanel {
   private KeyboardListener keyboardListener;
   private long[] frameBuffer;
+//  private final int SCALE;
 
   public Chip8Interface() {
     super();
@@ -81,18 +82,18 @@ public class Chip8Interface extends JPanel {
     }
   }
 
-  public static void main(String[] args) {
-    JFrame frame = new JFrame("Pixel Drawing");
-    Chip8Interface panel = new Chip8Interface();
-    frame.addKeyListener(panel.keyboardListener);
-    frame.add(panel);
-    frame.setSize(720, 480);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-    new Scanner(System.in).next();
-    panel.repaint();
-  }
+//  public static void main(String[] args) {
+//    JFrame frame = new JFrame("Pixel Drawing");
+//    Chip8Interface panel = new Chip8Interface();
+//    frame.addKeyListener(panel.keyboardListener);
+//    frame.add(panel);
+//    frame.setSize(720, 480);
+//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    frame.setVisible(true);
+//
+//    new Scanner(System.in).next();
+//    panel.repaint();
+//  }
 
   public void updateScreen(long[] frameBuffer) {
     this.frameBuffer = frameBuffer.clone();
