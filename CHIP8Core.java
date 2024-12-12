@@ -82,7 +82,7 @@ public class CHIP8Core {
   }
 
   private void OP_3xkk() { // SE Vx, byte: skip next instruction if Vx == kk
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
     if(registers[vx] == kk) {
@@ -91,7 +91,7 @@ public class CHIP8Core {
   }
 
   private void OP_4xkk() { // SNE Vx, byte: skip next instruction if Vx != kk
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
     if(registers[vx] != kk) {
@@ -100,8 +100,8 @@ public class CHIP8Core {
   }
 
   private void OP_5xy0() { // SE Vx, Vy: skip next instruction if Vx != kk
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     if(registers[vx] == registers[vy]) {
       programCounter += 2;
@@ -109,50 +109,50 @@ public class CHIP8Core {
   }
 
   private void OP_6xkk() { // LD Vx, byte: loads the value of kk into Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
     registers[vx] = kk;
   }
 
   private void OP_7xkk() { // ADD Vx, byte: adds the value of kk to Vx and stores the result
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
     registers[vx] += kk;
   }
 
   private void OP_8xy0() { // LD Vx, Vy: loads the value of vy into vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     registers[vx] = registers[vy];
   }
 
   private void OP_8xy1() { // OR Vx, Vy: sets Vx to Vx OR Vy
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     registers[vx] = (short) (registers[vx] | registers[vy]);
   }
 
   private void OP_8xy2() { // AND Vx, Vy: sets Vx to Vx AND Vy
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     registers[vx] = (short) (registers[vx] & registers[vy]);
   }
 
   private void OP_8xy3() { // XOR Vx, Vy: sets Vx to Vx XOR Vy
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     registers[vx] = (short) (registers[vx] ^ registers[vy]);
   }
 
   private void OP_8xy4() { // ADD Vx, Vy: adds the value of Vy to Vx, and if the result is larger than 8 bits, VF is set to 1
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     short sum = (short) ((registers[vx] + registers[vy]));
     if(sum > 255) {
@@ -164,8 +164,8 @@ public class CHIP8Core {
   }
 
   private void OP_8xy5() { // SUB Vx, Vy: If vx > vy, vf is 1, then vx - vy, store in vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     if(registers[vx] > registers[vy]) {
       registers[15] = 1;
@@ -177,15 +177,15 @@ public class CHIP8Core {
   }
 
   private void OP_8xy6() { // SHR Vx : Shift Vx right, and store the result in Vx and the lsb in vf
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
     registers[15] = (short) (registers[vx] & 0x1);
-    registers[vx] = (short) (registers[vx] >> 1 & 0xFF);
+    registers[vx] = (short) ((registers[vx] >> 1) & 0xFF);
   }
 
   private void OP_8xy7() { // SUBN Vx, Vy: Same as 8xy5, but with the operands swapped
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     if(registers[vx] < registers[vy]) {
       registers[15] = 1;
@@ -197,15 +197,15 @@ public class CHIP8Core {
   }
 
   private void OP_8xyE() { // SHL Vx: Shift Vx left, and store the result in Vx and the msb in vf
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
-    registers[15] = (short) (registers[vx] & 0x80 >> 7);
+    registers[15] = (short) ((registers[vx] & 0x80) >> 7);
     registers[vx] = (short) (registers[vx] << 1 & 0xFF);
   }
 
   private void OP_9xy0() { // SNE Vx, Vy: Skip the next instruction if Vx and Vy are not equal
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
 
     if(registers[vx] != registers[vy]) {
       programCounter += 2;
@@ -223,7 +223,7 @@ public class CHIP8Core {
   }
 
   private void OP_Cxkk() { // RND Vx, byte: generate a random number to be ANDed with kk and store in vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
 
     Random randomByteGenerator = new Random();
@@ -233,8 +233,8 @@ public class CHIP8Core {
   }
 
   private void OP_Dxyn() {
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
-    short vy = (short) (opcode & 0x00F0 >> 4 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
+    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
     short height = (short) (opcode & 0xF);
 
     short xPos = (short) (registers[vx] % 64);
@@ -261,7 +261,7 @@ public class CHIP8Core {
   }
 
   private void OP_Ex9E() { // SKP Vx: skip next instruction if a key with the value of vx is pressed
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     int pressedKey = registers[vx];
     if(keypad[pressedKey]) {
       programCounter += 2;
@@ -269,7 +269,7 @@ public class CHIP8Core {
   }
 
   private void OP_ExA1() { // SKNP Vx: skip next instruction if a key with the value of vx is NOT pressed
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     int pressedKey = registers[vx];
     if(!keypad[pressedKey]) {
       programCounter += 2;
@@ -277,12 +277,12 @@ public class CHIP8Core {
   }
 
   private void OP_Fx07() { // Set Vx to the value of the Delay Timer
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     registers[vx] = (short) (delayTimer & 0xFF);
   }
 
   private void OP_Fx0A() { // wait until a keypress, and then store the key in Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     boolean success = false;
 
     for(int i = 0; i < keypad.length && !success; i++) {
@@ -298,29 +298,29 @@ public class CHIP8Core {
   }
 
   private void OP_Fx15() { // set the delay timer to the value stored in Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     delayTimer = registers[vx];
   }
 
   private void OP_Fx18() { // set the sound timer to the value stored in Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     soundTimer = registers[vx];
   }
 
   private void OP_Fx1E() { // Set the index register to the current value plus the value stored in Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     indexRegister = (indexRegister + registers[vx]) & 0xFFFF;
   }
 
   private void OP_Fx29() { // Set index register to the location of sprite for digit Vx
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short digit = registers[vx];
 
     indexRegister = 0x50 + (5 * digit); // 0x50 is the start of the characters, and each character is 5 bytes
   }
 
   private void OP_Fx33() { // Store the BCD representation of the value in Vx in index register, with I representing the 100s, I+1 representing the 10s, and I+2 representing the 1s
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short value = (short) (registers[vx] & 0xFF);
 
     memory[indexRegister + 2] = (short) (value % 10);
@@ -333,7 +333,7 @@ public class CHIP8Core {
   }
 
   private void OP_Fx55() { // store the values of V0 through VX starting at I
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
     for(int i = 0; i <= vx; i++) {
       memory[indexRegister + i] = registers[i];
@@ -341,7 +341,7 @@ public class CHIP8Core {
   }
 
   private void OP_Fx65() { // read the values of I through I + x into V0 through VX
-    short vx = (short) (opcode & 0x0F00 >> 8 & 0xFF);
+    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
 
     for(int i = 0; i <= vx; i++) {
       registers[i] = memory[indexRegister + i];
@@ -349,7 +349,7 @@ public class CHIP8Core {
   }
 
   private void executeOpcode() { // Decodes the opcode and executes the specific instruction
-    if((opcode & 0xFFF0 >> 4) == 0x00E) { // first three digits are 0x00E
+    if(((opcode & 0xFFF0) >> 4) == 0x00E) { // first three digits are 0x00E
       int lastDigit = opcode & 0xF;
       switch(lastDigit) {
         case 0x0:
@@ -361,7 +361,7 @@ public class CHIP8Core {
         default:
           throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
-    } else if((opcode & 0xF000 >> 12) == 8) { // opcode starts with 0x8
+    } else if(((opcode & 0xF000) >> 12) == 8) { // opcode starts with 0x8
       int lastDigit = opcode & 0xF;
       switch(lastDigit) {
         case 0x0:
@@ -394,7 +394,7 @@ public class CHIP8Core {
         default:
           throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
-    } else if ((opcode & 0xF000 >> 12) == 0xE) { // Opcode begins with E
+    } else if (((opcode & 0xF000) >> 12) == 0xE) { // Opcode begins with E
       int lastDigits = opcode & 0xFF;
       switch(lastDigits) {
         case 0xA1:
@@ -406,7 +406,7 @@ public class CHIP8Core {
         default:
           throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
-    } else if (((opcode & 0xF000 >> 12) == 0xF)) { // Opcode begins with F
+    } else if ((((opcode & 0xF000) >> 12) == 0xF)) { // Opcode begins with F
       int lastDigits = opcode & 0xFF;
       switch(lastDigits) {
         case 0x07:
@@ -440,7 +440,7 @@ public class CHIP8Core {
           throw new UnknownOpcodeException(Integer.toHexString(opcode));
       }
     } else { // First digit / entire opcode is unique
-      int firstDigit = opcode & 0xF000 >> 12;
+      int firstDigit = (opcode & 0xF000) >> 12;
       switch(firstDigit) {
         case 0x1:
           OP_1nnn();
