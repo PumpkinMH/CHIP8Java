@@ -91,6 +91,7 @@ public class Chip8Interface extends JPanel {
 
   public void updateScreen(long[] frameBuffer) {
     this.frameBuffer = frameBuffer.clone();
+    this.repaint();
   }
 
   public boolean[] getStaticKeys() {
