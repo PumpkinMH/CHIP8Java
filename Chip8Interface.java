@@ -17,6 +17,11 @@ public class Chip8Interface extends JPanel {
   }
 
   @Override
+  public Dimension getPreferredSize() {
+    return new Dimension(640,320);
+  }
+
+  @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     // Set the color for the pixels
@@ -72,7 +77,7 @@ public class Chip8Interface extends JPanel {
       } else {
         g.setColor(Color.BLACK);
       }
-      g.fillRect(20 + (10 * (i % 64)), 20 + (10 * (i / 64)) , 10, 10);
+      g.fillRect((10 * (i % 64)), (10 * (i / 64)) , 10, 10);
     }
   }
 

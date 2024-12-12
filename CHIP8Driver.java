@@ -7,10 +7,12 @@ public class CHIP8Driver {
     public static void main(String[] args) {
         Chip8Interface ch8interface = new Chip8Interface();
 
-        JFrame frame = new JFrame("Pixel Drawing");
+        JFrame frame = new JFrame("Chip 8");
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);
-        frame.setSize(720, 480);
+//        frame.setSize(640, 320);
+        frame.pack();
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
