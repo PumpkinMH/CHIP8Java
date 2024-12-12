@@ -484,7 +484,7 @@ public class CHIP8Core {
     }
   }
 
-  private void cycle() {
+  public void cycle() {
     opcode = ((memory[programCounter] << 8) | memory[programCounter+1]) & 0xFFFF;
 
     programCounter += 2;
@@ -515,8 +515,14 @@ public class CHIP8Core {
       }
   }
 
-  public void updateKeypad(KeyEvent e) {
+  public void updateKeypad(boolean[] keypad) {
+    if(keypad.length == 64 * 32) {
+      this.keypad = keypad.clone();
+    }
+  }
 
+  public long[] getStaticScreen() {
+    return screen.clone();
   }
 
 

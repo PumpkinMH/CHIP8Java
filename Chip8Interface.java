@@ -6,6 +6,16 @@ public class Chip8Interface extends JPanel {
   private KeyboardListener keyboardListener;
   private long[] frameBuffer;
 
+  public Chip8Interface() {
+    super();
+    frameBuffer = new long[64 * 32];
+    keyboardListener = new KeyboardListener();
+  }
+
+  public KeyboardListener getInputListener() {
+    return keyboardListener;
+  }
+
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -43,17 +53,25 @@ public class Chip8Interface extends JPanel {
 //      }
 //    }
 
-    boolean alt = true;
+//    boolean alt = true;
+//    for(int i = 0; i < 64*32; i++) {
+//      if(i % 64 == 0) {
+//        alt = !alt;
+//      }
+//      if(alt) {
+//        g.setColor(Color.WHITE);
+//      } else {
+//        g.setColor(Color.BLACK);
+//      }
+//      alt = !alt;
+//      g.fillRect(20 + (10 * (i % 64)), 20 + (10 * (i / 64)) , 10, 10);
+//    }
     for(int i = 0; i < 64*32; i++) {
-      if(i % 64 == 0) {
-        alt = !alt;
-      }
-      if(alt) {
+      if(frameBuffer[i] > 0) {
         g.setColor(Color.WHITE);
       } else {
         g.setColor(Color.BLACK);
       }
-      alt = !alt;
       g.fillRect(20 + (10 * (i % 64)), 20 + (10 * (i / 64)) , 10, 10);
     }
   }
@@ -61,7 +79,6 @@ public class Chip8Interface extends JPanel {
   public static void main(String[] args) {
     JFrame frame = new JFrame("Pixel Drawing");
     Chip8Interface panel = new Chip8Interface();
-    panel.keyboardListener = new KeyboardListener();
     frame.addKeyListener(panel.keyboardListener);
     frame.add(panel);
     frame.setSize(720, 480);
