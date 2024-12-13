@@ -222,7 +222,7 @@ public class CHIP8Core {
     int address = opcode & 0xFFF;
     programCounter = registers[0] + address & 0xFFFF;
   }
-
+  //TODO make the rng seed controllable
   private void OP_Cxkk() { // RND Vx, byte: generate a random number to be ANDed with kk and store in vx
     short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
     short kk = (short) (opcode & 0x00FF);
@@ -231,11 +231,12 @@ public class CHIP8Core {
     int randomByte = randomByteGenerator.nextInt(256);
 
     registers[vx] = (short) ((randomByte & kk) & 0xFF);
+//    registers[vx] = 5;
   }
 
   private void OP_Dxyn() {
-    short vx = (short) ((opcode & 0x0F00) >> 8 & 0xFF);
-    short vy = (short) ((opcode & 0x00F0) >> 4 & 0xFF);
+    short vx = (short) (((opcode & 0x0F00) >> 8) & 0xFF);
+    short vy = (short) (((opcode & 0x00F0) >> 4) & 0xFF);
     short height = (short) (opcode & 0xF);
 
     short xPos = (short) (registers[vx] % 64);
@@ -245,20 +246,23 @@ public class CHIP8Core {
 
     for(int row = 0; row < height; row++) {
       short spriteByte = (short) (memory[indexRegister + row] & 0xFF);
-      for(int col = 0; col < 8; col++) {
-        short spritePixel = (short) (spriteByte & (0x80 >> col) & 0xFF);
-        long screenPixel = screen[(yPos + row) * 64 + (xPos + col )];
+      for (int col = 0; col < 8; col++) {
+        short spritePixel = (short) ((spriteByte & (0x80 >> col)) & 0xFF);
 
-        if(spritePixel > 0) {
-          if(screenPixel == 0xFFFFFFFFL) {
-            registers[15] = 1;
+        int screenIndex = (yPos + row) * 64 + (xPos + col);
+        if (screenIndex < screen.length) {
+          long screenPixel = screen[screenIndex];
+
+          if (spritePixel > 0) {
+            if (screenPixel == 0xFFFFFFFFL) {
+              registers[15] = 1;
+            }
+
+            screen[screenIndex] ^= 0xFFFFFFFFL;
           }
-
-          screen[(yPos + row) * 64 + (xPos + col )] ^= 0xFFFFFFFFL;
         }
       }
     }
-
   }
 
   private void OP_Ex9E() { // SKP Vx: skip next instruction if a key with the value of vx is pressed
@@ -517,7 +521,7 @@ public class CHIP8Core {
   }
 
   public void updateKeypad(boolean[] keypad) {
-    if(keypad.length == 64 * 32) {
+    if(keypad.length == 16) {
       this.keypad = keypad.clone();
     }
   }
