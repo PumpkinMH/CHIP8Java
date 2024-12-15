@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Chip8Interface extends JPanel {
   private KeyboardListener keyboardListener;
   private long[] frameBuffer;
-//  private final int SCALE;
+  private final int SCALE = 10;
 
   public Chip8Interface() {
     super();
@@ -19,7 +19,7 @@ public class Chip8Interface extends JPanel {
 
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(640,320);
+    return new Dimension(64 * SCALE,32 * SCALE);
   }
 
   @Override
@@ -32,7 +32,7 @@ public class Chip8Interface extends JPanel {
       } else {
         g.setColor(Color.BLACK);
       }
-      g.fillRect((10 * (i % 64)), (10 * (i / 64)) , 10, 10);
+      g.fillRect((SCALE * (i % 64)), (SCALE * (i / 64)) , SCALE, SCALE);
     }
   }
 
