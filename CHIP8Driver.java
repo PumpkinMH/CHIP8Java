@@ -7,13 +7,19 @@ public class CHIP8Driver {
     static int cycleTimeMillis = 10;
 
     public static void main(String[] args) {
+        // Set look and feel to the system one
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {
+
+        }
+
         // Prompt user for file, return if the file is invalid
         JFileChooser romSelectionDialog = new JFileChooser();
         FileNameExtensionFilter romFilter = new FileNameExtensionFilter("CHIP-8 ROM Files", "ch8");
         romSelectionDialog.setFileFilter(romFilter);
         romSelectionDialog.setAcceptAllFileFilterUsed(false);
         int returnVal = romSelectionDialog.showOpenDialog(null);
-
         File romFile;
         if(returnVal == JFileChooser.CANCEL_OPTION) {
             return;
@@ -37,6 +43,7 @@ public class CHIP8Driver {
             ch8core.loadROM(romFile);
         } catch (IOException e) {
             System.out.println("Error reading file");
+            JOptionPane.showMessageDialog(null, "An error occurred reading the ROM file", "ROM File Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -49,9 +56,7 @@ public class CHIP8Driver {
 
             if(deltaTime > cycleTimeMillis) {
                 startTime = System.currentTimeMillis();
-
                 ch8core.cycle();
-
                 ch8interface.updateScreen(ch8core.getStaticScreen());
             }
 
