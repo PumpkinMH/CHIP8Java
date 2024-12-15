@@ -7,6 +7,7 @@ public class CHIP8Driver {
     static int cycleTimeMillis = 10;
 
     public static void main(String[] args) {
+        // Prompt user for file, return if the file is invalid
         JFileChooser romSelectionDialog = new JFileChooser();
         FileNameExtensionFilter romFilter = new FileNameExtensionFilter("CHIP-8 ROM Files", "ch8");
         romSelectionDialog.setFileFilter(romFilter);
@@ -20,8 +21,8 @@ public class CHIP8Driver {
             romFile = romSelectionDialog.getSelectedFile();
         }
 
+        // Initialize interface
         Chip8Interface ch8interface = new Chip8Interface();
-
         JFrame frame = new JFrame("Chip 8");
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);
@@ -30,6 +31,7 @@ public class CHIP8Driver {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+        // Load ROM
         CHIP8Core ch8core = new CHIP8Core();
         try {
             ch8core.loadROM(romFile);
@@ -38,6 +40,7 @@ public class CHIP8Driver {
             return;
         }
 
+        // Main Cycle
         long startTime = System.currentTimeMillis();
         while(true) {
             ch8core.updateKeypad(ch8interface.getStaticKeys());
