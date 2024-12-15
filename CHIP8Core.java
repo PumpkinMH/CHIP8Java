@@ -1,4 +1,6 @@
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 import java.io.InputStream;
@@ -515,9 +517,26 @@ public class CHIP8Core {
           offset++;
         }
         romLoaded = true;
+        inputStream.close();
       } else {
         System.out.println("ROM has already been loaded!");
       }
+  }
+
+  public void loadROM(File file) throws IOException {
+    if(!romLoaded) {
+      InputStream inputStream = new FileInputStream(file);
+      int data;
+      int offset = 0;
+      while((data = inputStream.read()) != -1) {
+        memory[0x200 + offset] = (short) (data & 0xFF);
+        offset++;
+      }
+      romLoaded = true;
+      inputStream.close();
+    } else {
+      System.out.println("ROM has already been loaded!");
+    }
   }
 
   public void updateKeypad(boolean[] keypad) {

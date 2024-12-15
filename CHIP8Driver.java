@@ -1,16 +1,30 @@
+import java.io.File;
 import javax.swing.*;
 import java.io.IOException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class CHIP8Driver {
     static int cycleTimeMillis = 10;
 
     public static void main(String[] args) {
+        JFileChooser romSelectionDialog = new JFileChooser();
+        FileNameExtensionFilter romFilter = new FileNameExtensionFilter("CHIP-8 ROM Files", "ch8");
+        romSelectionDialog.setFileFilter(romFilter);
+        romSelectionDialog.setAcceptAllFileFilterUsed(false);
+        int returnVal = romSelectionDialog.showOpenDialog(null);
+
+        File romFile;
+        if(returnVal == JFileChooser.CANCEL_OPTION) {
+            return;
+        } else {
+            romFile = romSelectionDialog.getSelectedFile();
+        }
+
         Chip8Interface ch8interface = new Chip8Interface();
 
         JFrame frame = new JFrame("Chip 8");
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);
-//        frame.setSize(640, 320);
         frame.pack();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,9 +32,9 @@ public class CHIP8Driver {
 
         CHIP8Core ch8core = new CHIP8Core();
         try {
-            ch8core.loadROM("tetris.ch8");
+            ch8core.loadROM(romFile);
         } catch (IOException e) {
-            System.out.println("File not found");
+            System.out.println("Error reading file");
             return;
         }
 
