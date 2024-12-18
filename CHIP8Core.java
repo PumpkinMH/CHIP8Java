@@ -6,7 +6,6 @@ import java.util.Random;
 import java.io.InputStream;
 import java.io.FileInputStream;
 
-// TODO Finish opcode decoding, the main cycle, and the graphics
 public class CHIP8Core {
   private short[] registers;
   private int indexRegister;

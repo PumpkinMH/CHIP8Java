@@ -7,16 +7,17 @@ public class CHIP8Driver {
     static int cycleTimeMillis = 10;
 
     public static void main(String[] args) {
-        // Set look and feel to the system one
+        // Attempt to set look and feel to the system one
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
-
+            // Just use the default look and feel
         }
 
         // Prompt user for file, return if the file is invalid
         JFileChooser romSelectionDialog = new JFileChooser();
         FileNameExtensionFilter romFilter = new FileNameExtensionFilter("CHIP-8 ROM Files", "ch8");
+        romSelectionDialog.setDialogTitle("Open CHIP-8 ROM File");
         romSelectionDialog.setFileFilter(romFilter);
         romSelectionDialog.setAcceptAllFileFilterUsed(false);
         int returnVal = romSelectionDialog.showOpenDialog(null);
@@ -29,7 +30,7 @@ public class CHIP8Driver {
 
         // Initialize interface
         Chip8Interface ch8interface = new Chip8Interface();
-        JFrame frame = new JFrame("Chip 8");
+        JFrame frame = new JFrame("CHIP-8 Interpreter");
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);
         frame.pack();
@@ -59,10 +60,6 @@ public class CHIP8Driver {
                 ch8core.cycle();
                 ch8interface.updateScreen(ch8core.getStaticScreen());
             }
-
         }
-
-
-
     }
 }

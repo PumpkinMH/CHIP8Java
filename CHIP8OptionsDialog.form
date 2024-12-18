@@ -64,6 +64,7 @@
             </constraints>
             <properties>
               <text value="Scale"/>
+              <toolTipText value="Integer multiplier for each emulated pixel"/>
             </properties>
           </component>
           <vspacer id="7c9f0">
@@ -83,6 +84,7 @@
             </constraints>
             <properties>
               <text value="Delay"/>
+              <toolTipText value="Time in milliseconds for a CPU cycle to complete"/>
             </properties>
           </component>
           <component id="a290a" class="javax.swing.JSpinner" binding="DelaySpinner" custom-create="true">

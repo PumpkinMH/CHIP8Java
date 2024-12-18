@@ -89,6 +89,8 @@ public class CHIP8OptionsDialog extends JDialog {
     SpinnerNumberModel delayModel = new SpinnerNumberModel(1,0,null,1);
     DelaySpinner = new JSpinner(delayModel);
 
+
+
     // TODO: place custom component creation code here
   }
 }
