@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class CHIP8Driver {
     static int cycleTimeMillis = 10;
+    static int pixelScale = 10;
 
     public static void main(String[] args) {
         // Attempt to set look and feel to the system one
@@ -28,8 +29,18 @@ public class CHIP8Driver {
             romFile = romSelectionDialog.getSelectedFile();
         }
 
+        CHIP8OptionsDialog optionsDialog = new CHIP8OptionsDialog();
+        optionsDialog.pack();
+        optionsDialog.setVisible(true);
+        if(optionsDialog.isChangesMade()) {
+            pixelScale = optionsDialog.getScaleValue();
+            cycleTimeMillis = optionsDialog.getDelayValue();
+        } else {
+            return;
+        }
+
         // Initialize interface
-        Chip8Interface ch8interface = new Chip8Interface();
+        Chip8Interface ch8interface = new Chip8Interface(pixelScale);
         JFrame frame = new JFrame("CHIP-8 Interpreter");
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);

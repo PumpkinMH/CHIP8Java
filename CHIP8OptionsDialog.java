@@ -25,6 +25,10 @@ public class CHIP8OptionsDialog extends JDialog {
   private JLabel DelayLabel;
   private JSpinner DelaySpinner;
 
+  private boolean changesMade = false;
+  private int scaleValue;
+  private int delayValue;
+
   public CHIP8OptionsDialog() {
     setContentPane(contentPane);
     setModal(true);
@@ -57,15 +61,21 @@ public class CHIP8OptionsDialog extends JDialog {
                                          }
                                        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
         JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+    this.setTitle("CHIP-8 Options");
   }
 
   private void onOK() {
-    // add your code here
+    scaleValue = (int) ScaleSpinner.getValue();
+    delayValue = (int) DelaySpinner.getValue();
+    changesMade = true;
     dispose();
   }
 
   private void onCancel() {
-    // add your code here if necessary
+    scaleValue = (int) ScaleSpinner.getValue();
+    delayValue = (int) DelaySpinner.getValue();
+    changesMade = false;
     dispose();
   }
 
@@ -79,6 +89,9 @@ public class CHIP8OptionsDialog extends JDialog {
     dialog.setTitle("CHIP-8 Options");
     dialog.pack();
     dialog.setVisible(true);
+
+    System.out.println(dialog.getScaleValue() + " " + dialog.getDelayValue());
+
     System.exit(0);
   }
 
@@ -88,9 +101,17 @@ public class CHIP8OptionsDialog extends JDialog {
 
     SpinnerNumberModel delayModel = new SpinnerNumberModel(1,0,null,1);
     DelaySpinner = new JSpinner(delayModel);
+  }
 
+  public int getScaleValue() {
+    return scaleValue;
+  }
 
+  public int getDelayValue() {
+    return delayValue;
+  }
 
-    // TODO: place custom component creation code here
+  public boolean isChangesMade() {
+    return changesMade;
   }
 }

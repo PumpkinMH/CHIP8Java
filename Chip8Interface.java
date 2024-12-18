@@ -3,12 +3,20 @@ import java.awt.*;
 import java.util.Scanner;
 
 public class Chip8Interface extends JPanel {
-  private KeyboardListener keyboardListener;
+  private final KeyboardListener keyboardListener;
   private long[] frameBuffer;
-  private final int SCALE = 10;
+  private final int SCALE;
 
   public Chip8Interface() {
     super();
+    SCALE = 10;
+    frameBuffer = new long[64 * 32];
+    keyboardListener = new KeyboardListener();
+  }
+
+  public Chip8Interface(int scale) {
+    super();
+    SCALE = scale;
     frameBuffer = new long[64 * 32];
     keyboardListener = new KeyboardListener();
   }
