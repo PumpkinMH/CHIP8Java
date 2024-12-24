@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -24,10 +25,16 @@ public class CHIP8OptionsDialog extends JDialog {
   private JSpinner ScaleSpinner;
   private JLabel DelayLabel;
   private JSpinner DelaySpinner;
+  private JSpinner FrequencySpinner;
+  private JLabel SoundFrequencyLabel;
+  private JCheckBox SoundEnableCheckbox;
+  private JLabel SoundEnableLabel;
 
   private boolean changesMade = false;
   private int scaleValue;
   private int delayValue;
+  private int soundFrequency;
+  private boolean enableSound;
 
   public CHIP8OptionsDialog() {
     setContentPane(contentPane);
@@ -68,6 +75,8 @@ public class CHIP8OptionsDialog extends JDialog {
   private void onOK() {
     scaleValue = (int) ScaleSpinner.getValue();
     delayValue = (int) DelaySpinner.getValue();
+    soundFrequency = (int) FrequencySpinner.getValue();
+    enableSound = SoundEnableCheckbox.isSelected();
     changesMade = true;
     dispose();
   }
@@ -75,6 +84,8 @@ public class CHIP8OptionsDialog extends JDialog {
   private void onCancel() {
     scaleValue = (int) ScaleSpinner.getValue();
     delayValue = (int) DelaySpinner.getValue();
+    soundFrequency = (int) FrequencySpinner.getValue();
+    enableSound = SoundEnableCheckbox.isSelected();
     changesMade = false;
     dispose();
   }
@@ -101,6 +112,9 @@ public class CHIP8OptionsDialog extends JDialog {
 
     SpinnerNumberModel delayModel = new SpinnerNumberModel(1,0,null,1);
     DelaySpinner = new JSpinner(delayModel);
+
+    SpinnerNumberModel frequencyModel = new SpinnerNumberModel(440, 0, 20000, 1);
+    FrequencySpinner = new JSpinner(frequencyModel);
   }
 
   public int getScaleValue() {
@@ -109,6 +123,14 @@ public class CHIP8OptionsDialog extends JDialog {
 
   public int getDelayValue() {
     return delayValue;
+  }
+
+  public int getSoundFrequency() {
+    return soundFrequency;
+  }
+
+  public boolean isSoundEnabled() {
+    return enableSound;
   }
 
   public boolean isChangesMade() {
