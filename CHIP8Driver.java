@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class CHIP8Driver {
     static int pixelScale = 10;
     static int soundFrequency = 440;
     static boolean soundEnabled = false;
+    static double bufferSecondsTime = .05;
 
     public static void main(String[] args) {
         // Attempt to set look and feel to the system one
@@ -82,14 +84,16 @@ public class CHIP8Driver {
                     byte[] instantSoundByte = new byte[1];
                     while(soundEnabled) {
                         if(ch8core.isSoundPlaying()) {
-                            index %= sampleRate;
-                            double angle = 2 * Math.PI * frequency * index++ / sampleRate;
-                            byte sample = (byte) (Math.sin(angle) * 127);
-                            instantSoundByte[0] = sample;
-                            sourceDataLine.write(instantSoundByte, 0 ,1);
+                            ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
+                            for(int i = 0; i < sampleRate * bufferSecondsTime; i++) {
+                                double angle = 2 * Math.PI * frequency * i / sampleRate;
+                                byte sample = (byte) (Math.sin(angle) * 127);
+                                audioBuffer.write(sample);
+                            }
+                            byte[] dataLineBytes = audioBuffer.toByteArray();
+                            sourceDataLine.write(dataLineBytes,0,dataLineBytes.length);
                         } else {
-                            index = 0;
-                            sourceDataLine.drain();
+                            sourceDataLine.flush();
                         }
                     }
                 };
