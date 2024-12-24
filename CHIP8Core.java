@@ -548,6 +548,10 @@ public class CHIP8Core {
     return screen.clone();
   }
 
+  public boolean isSoundPlaying() {
+    return soundTimer > 0;
+  }
+
 
 
 
