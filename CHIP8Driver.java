@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.io.IOException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-//TODO Implement audio via the techniques in SoundTest and ThreadTest. Reimplement the screen as a buffered image
+//TODO Reimplement the screen as a buffered image
 public class CHIP8Driver {
     static int cycleTimeMillis = 10;
     static int pixelScale = 10;
@@ -68,8 +68,8 @@ public class CHIP8Driver {
             return;
         }
 
-        Thread soundThread;
         // Initialize sound
+        Thread soundThread;
         if(soundEnabled) {
             try {
                 AudioFormat audioFormat = new AudioFormat(44100, 8, 1, true, false);
