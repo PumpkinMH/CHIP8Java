@@ -54,6 +54,7 @@ public class CHIP8Driver {
 
         }
 
+        // Used save settings only if they are valid, otherwise do nothing
         String cycleString = ch8properties.getProperty("ch8.cpuDelay");
         if(isInt(cycleString)) {
             cycleTimeMillis = Integer.parseInt(cycleString);
