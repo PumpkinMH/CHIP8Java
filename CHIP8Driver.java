@@ -114,7 +114,12 @@ public class CHIP8Driver {
 
             if(deltaTime > cycleTimeMillis) {
                 startTime = System.currentTimeMillis();
-                ch8core.cycle();
+                try {
+                    ch8core.cycle();
+                } catch (UnknownOpcodeException e) {
+                    JOptionPane.showMessageDialog(ch8interface, e.getStackTrace(), "Unknown Opcode Exception: " + e.getMessage(), JOptionPane.ERROR_MESSAGE);
+                    System.exit(-1);
+                }
                 ch8interface.updateScreen(ch8core.getStaticScreen());
             }
         }
