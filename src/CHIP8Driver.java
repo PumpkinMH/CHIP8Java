@@ -38,6 +38,7 @@ public class CHIP8Driver {
         // Prompt the user for interpreter options
         CHIP8OptionsDialog optionsDialog = new CHIP8OptionsDialog();
         optionsDialog.pack();
+        optionsDialog.setLocationRelativeTo(null);
         optionsDialog.setVisible(true);
         if(optionsDialog.isChangesMade()) {
             pixelScale = optionsDialog.getScaleValue();
@@ -54,6 +55,7 @@ public class CHIP8Driver {
         frame.addKeyListener(ch8interface.getInputListener());
         frame.add(ch8interface);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
