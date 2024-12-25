@@ -153,7 +153,7 @@ public class CHIP8Driver {
                 soundThread.setPriority(Thread.MAX_PRIORITY);
                 soundThread.start();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(ch8interface, "An error occurred in the sound thread. Sound will now be disabled", "Sound Thread Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ch8interface, "An error occurred initializing the sound thread. Sound will now be disabled", "Sound Thread Error", JOptionPane.ERROR_MESSAGE);
                 soundEnabled = false;
             }
         }
