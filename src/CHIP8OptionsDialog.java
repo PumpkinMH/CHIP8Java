@@ -31,10 +31,16 @@ public class CHIP8OptionsDialog extends JDialog {
   private JLabel SoundEnableLabel;
 
   private boolean changesMade = false;
-  private int scaleValue;
-  private int delayValue;
-  private int soundFrequency;
-  private boolean enableSound;
+  private int scaleValue = 1;
+  private int delayValue = 1;
+  private int soundFrequency = 440;
+  private boolean enableSound = false;
+
+  private final int MINIMUM_SCALE = 1;
+  private final int MINIMUM_DELAY = 1;
+  private final int MINIMUM_FREQUENCY = 0;
+
+  private final int MAXIMUM_FREQUENCY = 20000;
 
   public CHIP8OptionsDialog() {
     setContentPane(contentPane);
@@ -107,14 +113,27 @@ public class CHIP8OptionsDialog extends JDialog {
   }
 
   private void createUIComponents() {
-    SpinnerNumberModel scaleModel = new SpinnerNumberModel(1,1,null,1);
+    SpinnerNumberModel scaleModel = new SpinnerNumberModel(scaleValue,MINIMUM_SCALE,null,1);
     ScaleSpinner = new JSpinner(scaleModel);
 
-    SpinnerNumberModel delayModel = new SpinnerNumberModel(1,0,null,1);
+    SpinnerNumberModel delayModel = new SpinnerNumberModel(delayValue,MINIMUM_DELAY,null,1);
     DelaySpinner = new JSpinner(delayModel);
 
-    SpinnerNumberModel frequencyModel = new SpinnerNumberModel(440, 0, 20000, 1);
+    SpinnerNumberModel frequencyModel = new SpinnerNumberModel(soundFrequency, MINIMUM_FREQUENCY, 20000, 1);
     FrequencySpinner = new JSpinner(frequencyModel);
+  }
+
+  public void setInitialValues(int scaleValue, int delayValue, int soundFrequency, boolean enableSound) {
+    if(scaleValue > MINIMUM_SCALE) {
+      ScaleSpinner.setValue(scaleValue);
+    }
+    if(delayValue > MINIMUM_DELAY) {
+      DelaySpinner.setValue(delayValue);
+    }
+    if(soundFrequency > MINIMUM_FREQUENCY && soundFrequency <= MAXIMUM_FREQUENCY) {
+      FrequencySpinner.setValue(soundFrequency);
+    }
+    SoundEnableCheckbox.setEnabled(enableSound);
   }
 
   public int getScaleValue() {
