@@ -35,7 +35,7 @@ public class CHIP8Driver {
             romFile = romSelectionDialog.getSelectedFile();
         }
 
-        // Prompt the user for a pixel scale and cycle delay
+        // Prompt the user for interpreter options
         CHIP8OptionsDialog optionsDialog = new CHIP8OptionsDialog();
         optionsDialog.pack();
         optionsDialog.setVisible(true);
