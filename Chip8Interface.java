@@ -6,7 +6,7 @@ public class Chip8Interface extends JPanel {
   private final KeyboardListener keyboardListener;
   private int[] frameBuffer;
   private final int SCALE;
-  private BufferedImage pixelImage;
+  private final BufferedImage pixelImage;
 
   public Chip8Interface() {
     super();
@@ -58,8 +58,4 @@ public class Chip8Interface extends JPanel {
   public boolean[] getStaticKeys() {
     return keyboardListener.getStaticKeys();
   }
-
-
-
-
 }
