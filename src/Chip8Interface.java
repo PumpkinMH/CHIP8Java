@@ -36,22 +36,22 @@ public class Chip8Interface extends JPanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    g.drawImage(pixelImage.getScaledInstance(64 * SCALE, 32 * SCALE, Image.SCALE_FAST),0,0,null);
 
-//    WritableRaster smallRaster = pixelImage.getRaster();
-//    smallRaster.setPixels(0,0,64,32,);
-
-    for(int i = 0; i < 64*32; i++) {
-      if(frameBuffer[i] > 0) {
-        g.setColor(Color.WHITE);
-      } else {
-        g.setColor(Color.BLACK);
-      }
-      g.fillRect((SCALE * (i % 64)), (SCALE * (i / 64)) , SCALE, SCALE);
-    }
+//    for(int i = 0; i < 64*32; i++) {
+//      if(frameBuffer[i] > 0) {
+//        g.setColor(Color.WHITE);
+//      } else {
+//        g.setColor(Color.BLACK);
+//      }
+//      g.fillRect((SCALE * (i % 64)), (SCALE * (i / 64)) , SCALE, SCALE);
+//    }
   }
 
   public void updateScreen(int[] frameBuffer) {
     this.frameBuffer = frameBuffer.clone();
+    WritableRaster smallRaster = pixelImage.getRaster();
+    smallRaster.setPixels(0,0,64,32,frameBuffer);
     this.repaint();
   }
 
