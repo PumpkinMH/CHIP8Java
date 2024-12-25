@@ -36,11 +36,11 @@ public class CHIP8OptionsDialog extends JDialog {
   private int soundFrequency = 440;
   private boolean enableSound = false;
 
-  private final int MINIMUM_SCALE = 1;
-  private final int MINIMUM_DELAY = 1;
-  private final int MINIMUM_FREQUENCY = 0;
+  private static final int MINIMUM_SCALE = 1;
+  private static final int MINIMUM_DELAY = 1;
+  private static final int MINIMUM_FREQUENCY = 0;
 
-  private final int MAXIMUM_FREQUENCY = 20000;
+  private static final int MAXIMUM_FREQUENCY = 20000;
 
   public CHIP8OptionsDialog() {
     setContentPane(contentPane);
@@ -133,7 +133,7 @@ public class CHIP8OptionsDialog extends JDialog {
     if(soundFrequency > MINIMUM_FREQUENCY && soundFrequency <= MAXIMUM_FREQUENCY) {
       FrequencySpinner.setValue(soundFrequency);
     }
-    SoundEnableCheckbox.setEnabled(enableSound);
+    SoundEnableCheckbox.setSelected(enableSound);
   }
 
   public int getScaleValue() {

@@ -1,5 +1,8 @@
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Properties;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.IOException;
@@ -7,8 +10,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 //TODO Reimplement the screen as a buffered image
 public class CHIP8Driver {
-    static int cycleTimeMillis = 10;
-    static int pixelScale = 10;
+    static int cycleTimeMillis = 1;
+    static int pixelScale = 1;
     static int soundFrequency = 440;
     static boolean soundEnabled = false;
     static double bufferSecondsTime = .05;
@@ -35,10 +38,44 @@ public class CHIP8Driver {
             romFile = romSelectionDialog.getSelectedFile();
         }
 
+        // Get saved settings from .properties file
+        Properties ch8properties = new Properties();
+        try (FileInputStream propertiesStream = new FileInputStream("chip8.properties")) {
+            ch8properties.load(propertiesStream);
+        } catch (FileNotFoundException e) {
+          try {
+            new File("chip8.properties").createNewFile();
+          } catch (IOException ignored) {
+
+          }
+        }
+        catch (IOException ignored) {
+
+        }
+
+        String cycleString = ch8properties.getProperty("ch8.cpuDelay");
+        if(isInt(cycleString)) {
+            cycleTimeMillis = Integer.parseInt(cycleString);
+        }
+
+        String scaleString = ch8properties.getProperty("ch8.displayScale");
+        if(isInt(scaleString)) {
+            pixelScale = Integer.parseInt(scaleString);
+        }
+
+        String frequencyString = ch8properties.getProperty("ch8.soundFrequency");
+        if(isInt(frequencyString)) {
+            soundFrequency = Integer.parseInt(frequencyString);
+        }
+
+        String enableSoundString = ch8properties.getProperty("ch8.enableSound");
+        soundEnabled = Boolean.parseBoolean(enableSoundString);
+
         // Prompt the user for interpreter options
         CHIP8OptionsDialog optionsDialog = new CHIP8OptionsDialog();
         optionsDialog.pack();
         optionsDialog.setLocationRelativeTo(null);
+        optionsDialog.setInitialValues(pixelScale,cycleTimeMillis,soundFrequency,soundEnabled);
         optionsDialog.setVisible(true);
         if(optionsDialog.isChangesMade()) {
             pixelScale = optionsDialog.getScaleValue();
@@ -124,6 +161,18 @@ public class CHIP8Driver {
                 }
                 ch8interface.updateScreen(ch8core.getStaticScreen());
             }
+        }
+    }
+
+    public static boolean isInt(String string) {
+        if(string == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
