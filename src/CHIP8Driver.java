@@ -2,6 +2,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Properties;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -86,7 +87,19 @@ public class CHIP8Driver {
             return;
         }
 
-        // Initialize interface
+        // Write properties to .properties file
+        ch8properties.setProperty("ch8.cpuDelay", String.valueOf(cycleTimeMillis));
+        ch8properties.setProperty("ch8.displayScale", String.valueOf(pixelScale));
+        ch8properties.setProperty("ch8.soundFrequency", String.valueOf(soundFrequency));
+        ch8properties.setProperty("ch8.enableSound", String.valueOf(soundEnabled));
+        try(FileOutputStream propertiesStream = new FileOutputStream("chip8.properties")) {
+            new File("chip8.properties").createNewFile();
+            ch8properties.store(propertiesStream, null);
+        } catch (IOException ignored) {
+          System.err.println(".properties file could not be written to");
+        }
+
+      // Initialize interface
         Chip8Interface ch8interface = new Chip8Interface(pixelScale);
         JFrame frame = new JFrame("CHIP-8 Interpreter");
         frame.addKeyListener(ch8interface.getInputListener());
