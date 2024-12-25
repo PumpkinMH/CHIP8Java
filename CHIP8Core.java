@@ -16,7 +16,7 @@ public class CHIP8Core {
 
   private boolean[] keypad;
 
-  private long[] screen;
+  private int[] screen;
 
   private short delayTimer;
   private short soundTimer;
@@ -49,7 +49,7 @@ public class CHIP8Core {
     registers = new short[16];
     cpuStack = new int[16];
     keypad = new boolean[16];
-    screen = new long[64 * 32];
+    screen = new int[64 * 32];
     memory = new short[4096];
     programCounter = 0x200;
     romLoaded = false;
@@ -252,14 +252,14 @@ public class CHIP8Core {
 
         int screenIndex = (yPos + row) * 64 + (xPos + col);
         if (screenIndex < screen.length) {
-          long screenPixel = screen[screenIndex];
+          int screenPixel = screen[screenIndex];
 
           if (spritePixel > 0) {
-            if (screenPixel == 0xFFFFFFFFL) {
+            if (screenPixel == Integer.MAX_VALUE) {
               registers[15] = 1;
             }
 
-            screen[screenIndex] ^= 0xFFFFFFFFL;
+            screen[screenIndex] ^= Integer.MAX_VALUE;
           }
         }
       }
@@ -544,7 +544,7 @@ public class CHIP8Core {
     }
   }
 
-  public long[] getStaticScreen() {
+  public int[] getStaticScreen() {
     return screen.clone();
   }
 
