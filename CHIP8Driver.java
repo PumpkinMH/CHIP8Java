@@ -80,8 +80,6 @@ public class CHIP8Driver {
                 Runnable runnableAudio = () -> {
                     int sampleRate = (int) audioFormat.getSampleRate();
                     int frequency = soundFrequency;
-                    int index = 0;
-                    byte[] instantSoundByte = new byte[1];
                     while(soundEnabled) {
                         if(ch8core.isSoundPlaying()) {
                             ByteArrayOutputStream audioBuffer = new ByteArrayOutputStream();
@@ -96,12 +94,14 @@ public class CHIP8Driver {
                             sourceDataLine.flush();
                         }
                     }
+                    sourceDataLine.close();
                 };
                 soundThread = new Thread(runnableAudio);
                 soundThread.setPriority(Thread.MAX_PRIORITY);
                 soundThread.start();
-            } catch (Exception ignored) {
-
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(ch8interface, "An error occurred in the sound thread. Sound will now be disabled", "Sound Thread Error", JOptionPane.ERROR_MESSAGE);
+                soundEnabled = false;
             }
         }
 
