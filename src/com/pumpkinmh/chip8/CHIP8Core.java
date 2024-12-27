@@ -1,6 +1,6 @@
-import java.awt.event.KeyEvent;
+package com.pumpkinmh.chip8;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 import java.io.InputStream;

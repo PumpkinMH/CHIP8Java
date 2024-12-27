@@ -1,6 +1,7 @@
+package com.pumpkinmh.chip8;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Scanner;
 
 public class Chip8Interface extends JPanel {
   private final KeyboardListener keyboardListener;
