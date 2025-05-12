@@ -1,4 +1,4 @@
-package com.pumpkinmh.chip8;
+package src.com.pumpkinmh.chip8;
 
 import javax.swing.*;
 import java.awt.*;

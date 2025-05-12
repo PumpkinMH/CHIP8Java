@@ -1,4 +1,4 @@
-package com.pumpkinmh.chip8;
+package src.com.pumpkinmh.chip8;
 
 import java.io.File;
 import java.io.IOException;

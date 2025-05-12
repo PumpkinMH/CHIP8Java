@@ -1,4 +1,4 @@
-package com.pumpkinmh.chip8;
+package src.com.pumpkinmh.chip8;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

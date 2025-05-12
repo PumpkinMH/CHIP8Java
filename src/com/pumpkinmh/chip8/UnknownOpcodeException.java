@@ -1,4 +1,4 @@
-package com.pumpkinmh.chip8;
+package src.com.pumpkinmh.chip8;
 
 public class UnknownOpcodeException extends RuntimeException {
 
